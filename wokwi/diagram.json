@@ -14,7 +14,7 @@
       "type": "wokwi-dht22",
       "id": "dhtA",
       "top": -220,
-      "left": -300,
+      "left": -360,
       "attrs": {
         "temperature": "26",
         "humidity": "55"
@@ -24,16 +24,16 @@
       "type": "wokwi-text",
       "id": "labelA",
       "top": -250,
-      "left": -305,
+      "left": -362,
       "attrs": {
-        "text": "Ruang A (GPIO15)"
+        "text": "Ruang A"
       }
     },
     {
       "type": "wokwi-dht22",
       "id": "dhtB",
       "top": -220,
-      "left": -180,
+      "left": -200,
       "attrs": {
         "temperature": "28.5",
         "humidity": "62"
@@ -43,16 +43,16 @@
       "type": "wokwi-text",
       "id": "labelB",
       "top": -250,
-      "left": -185,
+      "left": -202,
       "attrs": {
-        "text": "Ruang B (GPIO4)"
+        "text": "Ruang B"
       }
     },
     {
       "type": "wokwi-dht22",
       "id": "dhtC",
       "top": -220,
-      "left": -60,
+      "left": -40,
       "attrs": {
         "temperature": "24",
         "humidity": "48"
@@ -62,16 +62,16 @@
       "type": "wokwi-text",
       "id": "labelC",
       "top": -250,
-      "left": -65,
+      "left": -42,
       "attrs": {
-        "text": "Ruang C (GPIO16)"
+        "text": "Ruang C"
       }
     },
     {
       "type": "wokwi-dht22",
       "id": "dhtD",
       "top": -220,
-      "left": 60,
+      "left": 120,
       "attrs": {
         "temperature": "27",
         "humidity": "58"
@@ -81,9 +81,9 @@
       "type": "wokwi-text",
       "id": "labelD",
       "top": -250,
-      "left": 55,
+      "left": 118,
       "attrs": {
-        "text": "Ruang D (GPIO17)"
+        "text": "Ruang D"
       }
     }
   ],
