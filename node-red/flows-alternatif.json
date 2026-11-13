@@ -1,0 +1,792 @@
+[
+    {
+        "id": "tab_flow_wsn",
+        "type": "tab",
+        "label": "WSN Monitoring (alternatif)",
+        "disabled": false,
+        "info": "Versi flow kelompok yang disesuaikan dengan gateway/Wokwi di repo ini.\n\nTelegram dibaca dari variabel lingkungan TELEGRAM_TOKEN dan TELEGRAM_CHAT_ID (file .env)."
+    },
+    {
+        "id": "broker_hivemq",
+        "type": "mqtt-broker",
+        "name": "HiveMQ publik",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ui_tab_wsn",
+        "type": "ui_tab",
+        "name": "Monitoring WSN",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ui_grp_1",
+        "type": "ui_group",
+        "name": "Ruangan 1",
+        "tab": "ui_tab_wsn",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ui_grp_2",
+        "type": "ui_group",
+        "name": "Ruangan 2",
+        "tab": "ui_tab_wsn",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ui_grp_3",
+        "type": "ui_group",
+        "name": "Ruangan 3",
+        "tab": "ui_tab_wsn",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ui_grp_4",
+        "type": "ui_group",
+        "name": "Ruangan 4",
+        "tab": "ui_tab_wsn",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "n_mqtt",
+        "type": "mqtt in",
+        "z": "tab_flow_wsn",
+        "name": "Terima Data WSN",
+        "topic": "itts-wsn-kelompok2/node/+",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "broker_hivemq",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "n_norm"
+            ]
+        ]
+    },
+    {
+        "id": "n_norm",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Ubah format gateway",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "n_csv_fn",
+                "n_alert_fn",
+                "n_switch"
+            ]
+        ],
+        "func": "// Gateway/Wokwi mengirim {node, seq, suhu, kelembapan, status, ...}.\n// Flow ini memakai {node_id, seq, temp, hum}.\nconst p = msg.payload;\nif (!p || p.status !== 0 || typeof p.suhu !== 'number') return null; // lewati paket sensor gagal\nmsg.payload = { node_id: Number(p.node), seq: p.seq, temp: p.suhu, hum: p.kelembapan };\nreturn msg;"
+    },
+    {
+        "id": "n_inject",
+        "type": "inject",
+        "z": "tab_flow_wsn",
+        "name": "Simulasi Ruang 2 (Alert)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"node_id\":2,\"temp\":29.5,\"hum\":76,\"seq\":1}",
+        "payloadType": "json",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "n_csv_fn",
+                "n_alert_fn",
+                "n_switch"
+            ]
+        ]
+    },
+    {
+        "id": "n_csv_fn",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Format CSV",
+        "outputs": 1,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 80,
+        "wires": [
+            [
+                "n_file"
+            ]
+        ],
+        "func": "const d = msg.payload;\nconst ts = new Date().toISOString();\nmsg.payload = `${ts},${d.node_id},${d.seq},${d.temp},${d.hum}`;\nreturn msg;"
+    },
+    {
+        "id": "n_file",
+        "type": "file",
+        "z": "tab_flow_wsn",
+        "name": "Simpan log_wsn.csv",
+        "filename": "log_wsn.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 620,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "n_alert_fn",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Cek Ambang Batas",
+        "outputs": 1,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "n_tg"
+            ]
+        ],
+        "func": "const d = msg.payload;\nconst bahaya = d.temp > 30 || d.hum > 70;\n\n// Kirim hanya saat ruangan BERUBAH dari normal ke bahaya (bukan tiap paket).\nconst status = flow.get('statusAlert') || {};\nconst sebelumnya = status[d.node_id] || false;\nstatus[d.node_id] = bahaya;\nflow.set('statusAlert', status);\nif (!bahaya || sebelumnya) return null;\n\nconst token = env.get('TELEGRAM_TOKEN');\nconst chatId = env.get('TELEGRAM_CHAT_ID');\nif (!token || !chatId) {\n    node.status({ fill: 'yellow', shape: 'ring', text: 'TELEGRAM_TOKEN / TELEGRAM_CHAT_ID belum diisi (.env)' });\n    return null;\n}\nmsg.url = 'https://api.telegram.org/bot' + token + '/sendMessage';\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    chat_id: chatId,\n    text: `⚠️ PERINGATAN WSN (Ruangan ${d.node_id})\\nSuhu: ${d.temp} °C\\nKelembapan: ${d.hum} %\\nPaket #${d.seq}`\n};\nreturn msg;"
+    },
+    {
+        "id": "n_tg",
+        "type": "http request",
+        "z": "tab_flow_wsn",
+        "name": "Kirim Telegram",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 620,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "n_switch",
+        "type": "switch",
+        "z": "tab_flow_wsn",
+        "name": "Pilih Ruangan",
+        "property": "payload.node_id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 380,
+        "y": 280,
+        "wires": [
+            [
+                "fn_r1"
+            ],
+            [
+                "fn_r2"
+            ],
+            [
+                "fn_r3"
+            ],
+            [
+                "fn_r4"
+            ]
+        ]
+    },
+    {
+        "id": "fn_r1",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Parse R1",
+        "func": "const d = msg.payload;\nreturn [{payload:d.temp},{payload:d.hum},[{topic:\"Suhu\",payload:d.temp},{topic:\"Kelembapan\",payload:d.hum}]];",
+        "outputs": 3,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 200,
+        "wires": [
+            [
+                "g_t1"
+            ],
+            [
+                "g_h1"
+            ],
+            [
+                "c_1"
+            ]
+        ]
+    },
+    {
+        "id": "g_t1",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Suhu R1",
+        "group": "ui_grp_1",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "g_h1",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Lembap R1",
+        "group": "ui_grp_1",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c_1",
+        "type": "ui_chart",
+        "z": "tab_flow_wsn",
+        "name": "Grafik R1",
+        "group": "ui_grp_1",
+        "order": 3,
+        "width": 6,
+        "height": 3,
+        "label": "Riwayat",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 790,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fn_r2",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Parse R2",
+        "func": "const d = msg.payload;\nreturn [{payload:d.temp},{payload:d.hum},[{topic:\"Suhu\",payload:d.temp},{topic:\"Kelembapan\",payload:d.hum}]];",
+        "outputs": 3,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 280,
+        "wires": [
+            [
+                "g_t2"
+            ],
+            [
+                "g_h2"
+            ],
+            [
+                "c_2"
+            ]
+        ]
+    },
+    {
+        "id": "g_t2",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Suhu R2",
+        "group": "ui_grp_2",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "g_h2",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Lembap R2",
+        "group": "ui_grp_2",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c_2",
+        "type": "ui_chart",
+        "z": "tab_flow_wsn",
+        "name": "Grafik R2",
+        "group": "ui_grp_2",
+        "order": 3,
+        "width": 6,
+        "height": 3,
+        "label": "Riwayat",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 790,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fn_r3",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Parse R3",
+        "func": "const d = msg.payload;\nreturn [{payload:d.temp},{payload:d.hum},[{topic:\"Suhu\",payload:d.temp},{topic:\"Kelembapan\",payload:d.hum}]];",
+        "outputs": 3,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 360,
+        "wires": [
+            [
+                "g_t3"
+            ],
+            [
+                "g_h3"
+            ],
+            [
+                "c_3"
+            ]
+        ]
+    },
+    {
+        "id": "g_t3",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Suhu R3",
+        "group": "ui_grp_3",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "g_h3",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Lembap R3",
+        "group": "ui_grp_3",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c_3",
+        "type": "ui_chart",
+        "z": "tab_flow_wsn",
+        "name": "Grafik R3",
+        "group": "ui_grp_3",
+        "order": 3,
+        "width": 6,
+        "height": 3,
+        "label": "Riwayat",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 790,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fn_r4",
+        "type": "function",
+        "z": "tab_flow_wsn",
+        "name": "Parse R4",
+        "func": "const d = msg.payload;\nreturn [{payload:d.temp},{payload:d.hum},[{topic:\"Suhu\",payload:d.temp},{topic:\"Kelembapan\",payload:d.hum}]];",
+        "outputs": 3,
+        "noerr": 0,
+        "timeout": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 440,
+        "wires": [
+            [
+                "g_t4"
+            ],
+            [
+                "g_h4"
+            ],
+            [
+                "c_4"
+            ]
+        ]
+    },
+    {
+        "id": "g_t4",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Suhu R4",
+        "group": "ui_grp_4",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "g_h4",
+        "type": "ui_gauge",
+        "z": "tab_flow_wsn",
+        "name": "Lembap R4",
+        "group": "ui_grp_4",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 790,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "c_4",
+        "type": "ui_chart",
+        "z": "tab_flow_wsn",
+        "name": "Grafik R4",
+        "group": "ui_grp_4",
+        "order": 3,
+        "width": 6,
+        "height": 3,
+        "label": "Riwayat",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 790,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    }
+]

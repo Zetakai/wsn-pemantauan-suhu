@@ -3,11 +3,13 @@ rem Satu klik (Windows): jalankan Node-RED, buka dashboard, lalu jalankan simula
 rem   start.bat             Wokwi (jika wokwi\wokwi-url.txt berisi link proyek), selain itu simulator lokal
 rem   start.bat --lokal     selalu pakai simulator lokal (tanpa Wokwi)
 rem   start.bat --tanpa-sim hanya Node-RED (data dari perangkat ESP32 nyata)
+rem   set FLOW=flows-alternatif.json lalu start.bat   pakai flow alternatif kelompok
 rem Tutup jendela "Node-RED" dan "Simulator" untuk menghentikan.
 setlocal EnableDelayedExpansion
 set "ROOT=%~dp0"
 set "MODE=%~1"
 if "%PORT%"=="" set PORT=1880
+if "%FLOW%"=="" set FLOW=flows.json
 cd /d "%ROOT%node-red"
 
 where node >nul 2>nul
@@ -27,7 +29,7 @@ if not exist node_modules (
   call npm install --no-audit --no-fund
 )
 
-start "Node-RED" cmd /k npx node-red --userDir . -p %PORT% flows.json
+start "Node-RED" cmd /k npx node-red --userDir . -p %PORT% %FLOW%
 
 echo Menunggu Node-RED di port %PORT%...
 :tunggu

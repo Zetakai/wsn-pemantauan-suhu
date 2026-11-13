@@ -92,6 +92,17 @@ Peringatan dikirim hanya saat kondisi berubah (normal ke melewati batas, atau se
 
 `.env` tidak ikut di-commit.
 
+### Flow alternatif kelompok
+
+`node-red/flows-alternatif.json` adalah flow "WSN Monitoring" buatan kelompok. Isinya 4 grup ruangan, masing-masing dengan gauge suhu, gauge kelembapan dan grafik, ditambah log CSV (`log_wsn.csv`) dan peringatan Telegram. Flow ini sudah disesuaikan agar menerima data dari gateway/Wokwi di repo ini:
+
+- Broker `broker.hivemq.com`, topik `itts-wsn-kelompok2/node/+`. Fungsi "Ubah format gateway" mengubah `{node, suhu, kelembapan}` menjadi `{node_id, temp, hum}`.
+- Token dan chat id Telegram dibaca dari `.env`, tidak ditulis di flow.
+- Gauge suhu Ruangan 1 sudah tersambung. Di versi awal keluaran ini tidak terhubung.
+- Telegram hanya dikirim saat ruangan berubah dari normal ke melewati batas, bukan setiap paket.
+
+Cara menjalankan: `FLOW=flows-alternatif.json ./start.sh` (Linux/macOS). Di Windows, jalankan `set FLOW=flows-alternatif.json` lalu `start.bat`. Jalankan salah satu flow saja. Jika keduanya aktif, peringatan Telegram terkirim dua kali.
+
 ### PDR (tingkat keberhasilan pengiriman paket)
 
 Setiap node menaikkan nomor urut `seq` (disimpan di memori RTC, tetap ada selama deep sleep). Node-RED menghitung `PDR = paket diterima / (seq terakhir − seq pertama + 1)`. Paket duplikat (dikirim ulang karena ACK hilang) tidak dihitung. Jika `seq` turun, node dianggap restart dan hitungan dimulai ulang.
