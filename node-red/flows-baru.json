@@ -2,7 +2,7 @@
     {
         "id": "tab_flow_wsn",
         "type": "tab",
-        "label": "WSN Monitoring (alternatif)",
+        "label": "WSN Monitoring (flow baru)",
         "disabled": false,
         "info": "Versi flow kelompok yang disesuaikan dengan gateway/Wokwi di repo ini.\n\nTelegram dibaca dari variabel lingkungan TELEGRAM_TOKEN dan TELEGRAM_CHAT_ID (file .env)."
     },

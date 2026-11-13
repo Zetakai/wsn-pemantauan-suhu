@@ -3,7 +3,7 @@ rem Satu klik (Windows): jalankan Node-RED, buka dashboard, lalu jalankan simula
 rem   start.bat             Wokwi (jika wokwi\wokwi-url.txt berisi link proyek), selain itu simulator lokal
 rem   start.bat --lokal     selalu pakai simulator lokal (tanpa Wokwi)
 rem   start.bat --tanpa-sim hanya Node-RED (data dari perangkat ESP32 nyata)
-rem   set FLOW=flows-alternatif.json lalu start.bat   pakai flow alternatif kelompok
+rem   set FLOW=flows-baru.json lalu start.bat   pakai flow baru kelompok
 rem Tutup jendela "Node-RED" dan "Simulator" untuk menghentikan.
 setlocal EnableDelayedExpansion
 set "ROOT=%~dp0"

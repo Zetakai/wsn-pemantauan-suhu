@@ -4,7 +4,7 @@
 #   ./start.sh            Wokwi (jika wokwi/wokwi-url.txt berisi link proyek), selain itu simulator lokal
 #   ./start.sh --lokal    selalu pakai simulator lokal (tanpa Wokwi)
 #   ./start.sh --tanpa-sim  hanya Node-RED (data dari perangkat ESP32 nyata)
-#   FLOW=flows-alternatif.json ./start.sh   pakai flow alternatif kelompok
+#   FLOW=flows-baru.json ./start.sh   pakai flow baru kelompok
 #
 # Tekan Ctrl+C untuk menghentikan semuanya.
 set -euo pipefail

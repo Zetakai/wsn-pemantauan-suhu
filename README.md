@@ -92,16 +92,16 @@ Peringatan dikirim hanya saat kondisi berubah (normal ke melewati batas, atau se
 
 `.env` tidak ikut di-commit.
 
-### Flow alternatif kelompok
+### Flow baru kelompok
 
-`node-red/flows-alternatif.json` adalah flow "WSN Monitoring" buatan kelompok. Isinya 4 grup ruangan, masing-masing dengan gauge suhu, gauge kelembapan dan grafik, ditambah log CSV (`log_wsn.csv`) dan peringatan Telegram. Flow ini sudah disesuaikan agar menerima data dari gateway/Wokwi di repo ini:
+`node-red/flows-baru.json` adalah flow "WSN Monitoring" buatan kelompok. Isinya 4 grup ruangan, masing-masing dengan gauge suhu, gauge kelembapan dan grafik, ditambah log CSV (`log_wsn.csv`) dan peringatan Telegram. Flow ini sudah disesuaikan agar menerima data dari gateway/Wokwi di repo ini:
 
 - Broker `broker.hivemq.com`, topik `itts-wsn-kelompok2/node/+`. Fungsi "Ubah format gateway" mengubah `{node, suhu, kelembapan}` menjadi `{node_id, temp, hum}`.
 - Token dan chat id Telegram dibaca dari `.env`, tidak ditulis di flow.
 - Gauge suhu Ruangan 1 sudah tersambung. Di versi awal keluaran ini tidak terhubung.
 - Telegram hanya dikirim saat ruangan berubah dari normal ke melewati batas, bukan setiap paket.
 
-Cara menjalankan: `FLOW=flows-alternatif.json ./start.sh` (Linux/macOS). Di Windows, jalankan `set FLOW=flows-alternatif.json` lalu `start.bat`. Jalankan salah satu flow saja. Jika keduanya aktif, peringatan Telegram terkirim dua kali.
+Cara menjalankan: `FLOW=flows-baru.json ./start.sh` (Linux/macOS). Di Windows, jalankan `set FLOW=flows-baru.json` lalu `start.bat`. Jalankan salah satu flow saja. Jika keduanya aktif, peringatan Telegram terkirim dua kali.
 
 ### PDR (tingkat keberhasilan pengiriman paket)
 
