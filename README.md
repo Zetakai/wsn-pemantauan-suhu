@@ -1,6 +1,18 @@
 # Sistem Pemantauan Suhu dan Kelembapan Ruangan Berbasis WSN
 
-Tugas Proyek Jaringan Sensor Nirkabel, Kelompok 2, Fakultas Ilmu Komputer, Institut Teknologi Tangerang Selatan.
+Tugas Proyek Jaringan Sensor Nirkabel, Fakultas Ilmu Komputer, Institut Teknologi Tangerang Selatan, Tahun 2026/2027.
+
+Dosen: Koko Oktavianus Asmara
+
+### Kelompok 2
+
+| Nama | NIM |
+|---|---|
+| Muhammad Farid Zaki | 1003240010 |
+| Anggoro Jati Pratikto | 1003240026 |
+| Lintang Arif Setianda | 1003240023 |
+| Muhammad Elbra Herlambang | 1003250036 |
+| Ikbar Rabbani Purwanto | 1003240029 |
 
 Empat node sensor (ESP32 + DHT22) di Ruang A sampai D mengirim data lewat ESP-NOW ke satu gateway ESP32 (topologi star). Gateway meneruskan data ke MQTT broker. Node-RED menampilkan dashboard, menyimpan riwayat ke CSV, dan mengirim peringatan Telegram.
 
