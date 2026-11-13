@@ -8,6 +8,14 @@ Empat node sensor (ESP32 + DHT22) di Ruang A sampai D mengirim data lewat ESP-NO
 Node 1..4 (ESP32+DHT22) --ESP-NOW--> Gateway ESP32 --MQTT--> broker --> Node-RED --> Dashboard / CSV / Telegram
 ```
 
+Simulasi Wokwi: https://wokwi.com/projects/480570078977605633
+
+![Dashboard](docs/screenshot/1-dashboard.png)
+
+| Peringatan | Flow Node-RED | Wokwi |
+|---|---|---|
+| ![Peringatan](docs/screenshot/2-peringatan.png) | ![Flow](docs/screenshot/3-flow-node-red.png) | ![Wokwi](docs/screenshot/4-wokwi.png) |
+
 ## Isi repo
 
 | Folder | Isi |
