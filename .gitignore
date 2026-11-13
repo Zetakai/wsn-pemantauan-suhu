@@ -1,0 +1,13 @@
+node_modules/
+firmware/gateway/config.h
+.env
+
+# berkas yang dibuat Node-RED saat berjalan
+node-red/settings.js
+node-red/.config.*.json*
+node-red/.flows*.backup
+node-red/flows_cred.json
+node-red/lib/
+node-red/.sessions.json
+node-red/riwayat-pengukuran.csv
+*.csv

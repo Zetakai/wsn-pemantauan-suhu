@@ -1,0 +1,14 @@
+{
+  "name": "wsn-kelompok2-node-red",
+  "private": true,
+  "description": "Node-RED (userDir) untuk dashboard WSN suhu & kelembapan",
+  "scripts": {
+    "start": "node-red --userDir . flows.json",
+    "sim": "node simulator.mjs"
+  },
+  "dependencies": {
+    "mqtt": "^5.16.1",
+    "node-red": "^5.0.9",
+    "node-red-dashboard": "^3.6.6"
+  }
+}

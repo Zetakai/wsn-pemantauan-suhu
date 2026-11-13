@@ -1,0 +1,1272 @@
+[
+    {
+        "id": "a1b2c3d4e5f60001",
+        "type": "tab",
+        "label": "WSN Suhu & Kelembapan",
+        "disabled": false,
+        "info": "Kelompok 2 – Sistem Pemantauan Suhu dan Kelembapan Ruangan Berbasis WSN.\n\nData masuk dari MQTT `itts-wsn-kelompok2/node/<id>` (gateway ESP32 atau simulasi Wokwi).\n\nTelegram: jalankan Node-RED dengan variabel lingkungan `TELEGRAM_TOKEN` dan `TELEGRAM_CHAT_ID`."
+    },
+    {
+        "id": "b000100000000000",
+        "type": "mqtt-broker",
+        "name": "HiveMQ publik",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "t000200000000000",
+        "type": "ui_tab",
+        "name": "Pemantauan",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "g000300000000000",
+        "type": "ui_group",
+        "name": "Ruang A",
+        "tab": "t000200000000000",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000400000000000",
+        "type": "ui_group",
+        "name": "Ruang B",
+        "tab": "t000200000000000",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000500000000000",
+        "type": "ui_group",
+        "name": "Ruang C",
+        "tab": "t000200000000000",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000600000000000",
+        "type": "ui_group",
+        "name": "Ruang D",
+        "tab": "t000200000000000",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000700000000000",
+        "type": "ui_group",
+        "name": "Sistem",
+        "tab": "t000200000000000",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000800000000000",
+        "type": "ui_group",
+        "name": "Grafik 24 jam",
+        "tab": "t000200000000000",
+        "order": 6,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000900000000000",
+        "type": "ui_group",
+        "name": "Ambang batas",
+        "tab": "t000200000000000",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "g000a00000000000",
+        "type": "ui_group",
+        "name": "Riwayat peringatan",
+        "tab": "t000200000000000",
+        "order": 8,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "u000b00000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000300000000000",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 50,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "u000c00000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000300000000000",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%RH",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 100,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "u000d00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000300000000000",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "u000e00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000300000000000",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Info",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "u000f00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000300000000000",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "u001000000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000400000000000",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 50,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "u001100000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000400000000000",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%RH",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 100,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "u001200000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000400000000000",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "u001300000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000400000000000",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Info",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "u001400000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000400000000000",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "u001500000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000500000000000",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 50,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "u001600000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000500000000000",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%RH",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 100,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "u001700000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000500000000000",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "u001800000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000500000000000",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Info",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "u001900000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000500000000000",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "u001a00000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000600000000000",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "°C",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 50,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "25",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "u001b00000000000",
+        "type": "ui_gauge",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000600000000000",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%RH",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": 100,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "70",
+        "diff": false,
+        "className": "",
+        "x": 1050,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "u001c00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000600000000000",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "u001d00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000600000000000",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Info",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "u001e00000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000600000000000",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1050,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "u001f00000000000",
+        "type": "ui_chart",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000800000000000",
+        "order": 1,
+        "width": 12,
+        "height": 5,
+        "label": "Suhu (°C)",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "Menunggu data...",
+        "dot": false,
+        "ymin": "15",
+        "ymax": "40",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#2ca02c",
+            "#d62728",
+            "#9467bd",
+            "#8c564b",
+            "#e377c2",
+            "#7f7f7f",
+            "#bcbd22"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "u002000000000000",
+        "type": "ui_chart",
+        "z": "a1b2c3d4e5f60001",
+        "name": "",
+        "group": "g000800000000000",
+        "order": 2,
+        "width": 12,
+        "height": 5,
+        "label": "Kelembapan (%RH)",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "Menunggu data...",
+        "dot": false,
+        "ymin": "20",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff7f0e",
+            "#2ca02c",
+            "#d62728",
+            "#9467bd",
+            "#8c564b",
+            "#e377c2",
+            "#7f7f7f",
+            "#bcbd22"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "u002100000000000",
+        "type": "ui_text",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000700000000000",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Gateway",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 650,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "f002200000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Status Telegram",
+        "func": "if (msg.statusCode === 200 && msg.payload && msg.payload.ok) {\n    node.status({ fill: 'green', shape: 'dot', text: 'terkirim ' + new Date().toLocaleTimeString('id-ID') });\n} else {\n    node.status({ fill: 'red', shape: 'ring', text: 'gagal: ' + (msg.payload && msg.payload.description || msg.statusCode) });\n    node.warn(msg.payload);\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1290,
+        "y": 1180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "h002300000000000",
+        "type": "http request",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Telegram sendMessage",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1080,
+        "y": 1180,
+        "wires": [
+            [
+                "f002200000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f002400000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Format Telegram",
+        "func": "const token = env.get('TELEGRAM_TOKEN');\nconst chat = env.get('TELEGRAM_CHAT_ID');\nif (!token || !chat) {\n    node.status({ fill: 'yellow', shape: 'ring', text: 'TELEGRAM_TOKEN / TELEGRAM_CHAT_ID belum diisi' });\n    return null;\n}\nmsg.method = 'POST';\nmsg.url = 'https://api.telegram.org/bot' + token + '/sendMessage';\nmsg.headers = { 'content-type': 'application/json' };\nmsg.payload = { chat_id: chat, text: '[WSN Kelompok 2]\\n' + msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1180,
+        "wires": [
+            [
+                "h002300000000000"
+            ]
+        ]
+    },
+    {
+        "id": "u002500000000000",
+        "type": "ui_toast",
+        "z": "a1b2c3d4e5f60001",
+        "position": "top right",
+        "displayTime": "6",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "Popup peringatan",
+        "x": 870,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "u002600000000000",
+        "type": "ui_template",
+        "z": "a1b2c3d4e5f60001",
+        "group": "g000a00000000000",
+        "name": "Daftar peringatan",
+        "order": 1,
+        "width": 6,
+        "height": 8,
+        "format": "<div ng-if=\"!msg.payload.length\" style=\"opacity:.6\">Belum ada peringatan.</div>\n<table style=\"width:100%;border-collapse:collapse\">\n  <tr ng-repeat=\"a in msg.payload\" style=\"border-bottom:1px solid rgba(128,128,128,.2)\">\n    <td style=\"white-space:nowrap;opacity:.7;padding:4px 8px 4px 0;vertical-align:top\">{{a.waktu}}</td>\n    <td style=\"padding:4px 0\">{{a.teks}}</td>\n  </tr>\n</table>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1080,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f002700000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Simpan log",
+        "func": "const jam = (t) => new Date(t).toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });\n\nconst log = flow.get('log') || [];\nfor (const baris of String(msg.payload).split('\\n')) log.unshift({ waktu: jam(Date.now()), teks: baris });\nlog.length = Math.min(log.length, 30);\nflow.set('log', log);\nreturn { payload: log };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1260,
+        "wires": [
+            [
+                "u002600000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f002800000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Cek ambang batas",
+        "func": "// Kirim peringatan hanya saat kondisi BERUBAH (normal -> melewati ambang, atau sebaliknya),\n// supaya Telegram tidak dibanjiri pesan setiap 5 menit. Histeresis mencegah pesan bolak-balik.\nconst HIST_SUHU = 0.5, HIST_HUM = 2;\nconst d = msg.payload;\nconst t = flow.get('ambang') || { suhuMax: 30, humMax: 70 };\nconst semua = flow.get('alertState') || {};\nconst lalu = semua[d.node] || { suhu: false, hum: false, sensor: false };\nconst kini = { ...lalu, sensor: !d.sensorOk };\nconst pesan = [];\n\nif (kini.sensor && !lalu.sensor) pesan.push('❗ ' + d.ruang + ': sensor DHT22 gagal dibaca');\nif (!kini.sensor && lalu.sensor) pesan.push('✅ ' + d.ruang + ': sensor kembali terbaca');\n\nif (d.sensorOk) {\n    kini.suhu = lalu.suhu ? d.suhu > t.suhuMax - HIST_SUHU : d.suhu > t.suhuMax;\n    kini.hum = lalu.hum ? d.kelembapan > t.humMax - HIST_HUM : d.kelembapan > t.humMax;\n    if (kini.suhu && !lalu.suhu) pesan.push('⚠️ ' + d.ruang + ': suhu ' + d.suhu + ' °C melewati batas ' + t.suhuMax + ' °C');\n    if (!kini.suhu && lalu.suhu) pesan.push('✅ ' + d.ruang + ': suhu kembali normal (' + d.suhu + ' °C)');\n    if (kini.hum && !lalu.hum) pesan.push('⚠️ ' + d.ruang + ': kelembapan ' + d.kelembapan + '% melewati batas ' + t.humMax + '%');\n    if (!kini.hum && lalu.hum) pesan.push('✅ ' + d.ruang + ': kelembapan kembali normal (' + d.kelembapan + '%)');\n}\nsemua[d.node] = kini;\nflow.set('alertState', semua);\nif (!pesan.length) return null;\nreturn { topic: d.ruang, payload: pesan.join('\\n') };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1180,
+        "wires": [
+            [
+                "f002400000000000",
+                "u002500000000000",
+                "f002700000000000"
+            ]
+        ]
+    },
+    {
+        "id": "w002900000000000",
+        "type": "file",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Tambah ke CSV",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 840,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f002a00000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Baris CSV",
+        "func": "// Riwayat pengukuran -> CSV\n// kolom: waktu_iso,node,ruang,suhu,kelembapan,vbat,rssi,seq,pdr\nconst d = msg.payload;\nmsg.filename = env.get('WSN_CSV') || 'riwayat-pengukuran.csv';\nmsg.payload = [new Date(d.waktu).toISOString(), d.node, d.ruang,\n    d.suhu ?? '', d.kelembapan ?? '', d.vbat, d.rssi, d.seq, d.pdr].join(',');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1100,
+        "wires": [
+            [
+                "w002900000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f002b00000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Ke grafik",
+        "func": "const d = msg.payload;\nif (!d.sensorOk) return null;\nreturn [{ topic: d.ruang, payload: d.suhu }, { topic: d.ruang, payload: d.kelembapan }];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 900,
+        "wires": [
+            [
+                "u001f00000000000"
+            ],
+            [
+                "u002000000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f002c00000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Ke widget ruang",
+        "func": "const jam = (t) => new Date(t).toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });\n\n// 5 keluaran per ruang: suhu, kelembapan, status, detail, waktu (urut Ruang A..D).\nconst d = msg.payload;\nconst t = flow.get('ambang') || { suhuMax: 30, humMax: 70 };\nlet status = 'Normal';\nif (!d.sensorOk) status = 'Sensor gagal dibaca';\nelse if (d.suhu > t.suhuMax && d.kelembapan > t.humMax) status = '⚠ Suhu & kelembapan tinggi';\nelse if (d.suhu > t.suhuMax) status = '⚠ Suhu tinggi';\nelse if (d.kelembapan > t.humMax) status = '⚠ Kelembapan tinggi';\n\nconst keluaran = new Array(20).fill(null);\nconst b = (d.node - 1) * 5;\nif (d.sensorOk) {\n    keluaran[b] = { payload: d.suhu };\n    keluaran[b + 1] = { payload: d.kelembapan };\n}\nkeluaran[b + 2] = { payload: status };\nkeluaran[b + 3] = { payload: '🔋 ' + d.vbat.toFixed(2) + ' V · PDR ' + d.pdr + '% · ' + d.rssi + ' dBm' };\nkeluaran[b + 4] = { payload: jam(d.waktu) + ' · #' + d.seq };\nreturn keluaran;",
+        "outputs": 20,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 380,
+        "wires": [
+            [
+                "u000b00000000000"
+            ],
+            [
+                "u000c00000000000"
+            ],
+            [
+                "u000d00000000000"
+            ],
+            [
+                "u000e00000000000"
+            ],
+            [
+                "u000f00000000000"
+            ],
+            [
+                "u001000000000000"
+            ],
+            [
+                "u001100000000000"
+            ],
+            [
+                "u001200000000000"
+            ],
+            [
+                "u001300000000000"
+            ],
+            [
+                "u001400000000000"
+            ],
+            [
+                "u001500000000000"
+            ],
+            [
+                "u001600000000000"
+            ],
+            [
+                "u001700000000000"
+            ],
+            [
+                "u001800000000000"
+            ],
+            [
+                "u001900000000000"
+            ],
+            [
+                "u001a00000000000"
+            ],
+            [
+                "u001b00000000000"
+            ],
+            [
+                "u001c00000000000"
+            ],
+            [
+                "u001d00000000000"
+            ],
+            [
+                "u001e00000000000"
+            ]
+        ]
+    },
+    {
+        "id": "d002d00000000000",
+        "type": "debug",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Data valid",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "f002e00000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Validasi & PDR",
+        "func": "const RUANG = { 1: 'Ruang A', 2: 'Ruang B', 3: 'Ruang C', 4: 'Ruang D' };\n\n// Validasi paket dan hitung Packet Delivery Ratio (PDR) dari nomor urut (seq).\nconst p = msg.payload;\nif (typeof p !== 'object' || p === null) { node.warn('Payload bukan JSON: ' + msg.payload); return null; }\nconst id = Number(p.node);\nif (!RUANG[id]) { node.warn('Node tidak dikenal: ' + p.node); return null; }\nconst seq = Number(p.seq);\n\nconst stats = flow.get('stats') || {};\nlet s = stats[id];\n// seq turun = node restart (memori RTC hilang) -> mulai hitung ulang\nif (!s || seq < s.last) s = { first: seq, last: seq - 1, diterima: 0, duplikat: 0 };\nif (seq === s.last) {            // paket ulang (ACK hilang, node kirim lagi)\n    s.duplikat++;\n    stats[id] = s; flow.set('stats', stats);\n    return null;\n}\ns.diterima++;\ns.last = seq;\ns.lastSeen = Date.now();\nstats[id] = s;\nflow.set('stats', stats);\n\nconst sensorOk = Number(p.status) === 0 && typeof p.suhu === 'number' && typeof p.kelembapan === 'number';\nmsg.payload = {\n    node: id,\n    ruang: RUANG[id],\n    suhu: sensorOk ? Math.round(p.suhu * 10) / 10 : null,\n    kelembapan: sensorOk ? Math.round(p.kelembapan * 10) / 10 : null,\n    vbat: Number(p.vbat),\n    rssi: Number(p.rssi),\n    seq,\n    pdr: Math.round(s.diterima / (s.last - s.first + 1) * 1000) / 10,\n    sensorOk,\n    waktu: Date.now(),\n};\nnode.status({ fill: 'green', shape: 'dot', text: RUANG[id] + ' seq ' + seq });\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 640,
+        "wires": [
+            [
+                "f002c00000000000",
+                "f002b00000000000",
+                "f002a00000000000",
+                "f002800000000000",
+                "d002d00000000000"
+            ]
+        ]
+    },
+    {
+        "id": "m002f00000000000",
+        "type": "mqtt in",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Data node",
+        "topic": "itts-wsn-kelompok2/node/+",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "b000100000000000",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 640,
+        "wires": [
+            [
+                "f002e00000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f003000000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Status gateway",
+        "func": "const online = String(msg.payload) === 'online';\nnode.status({ fill: online ? 'green' : 'red', shape: 'dot', text: msg.payload });\nreturn { payload: online ? '🟢 online' : '🔴 offline' };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 1020,
+        "wires": [
+            [
+                "u002100000000000"
+            ]
+        ]
+    },
+    {
+        "id": "m003100000000000",
+        "type": "mqtt in",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Status gateway",
+        "topic": "itts-wsn-kelompok2/gateway/status",
+        "qos": "1",
+        "datatype": "utf8",
+        "broker": "b000100000000000",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 1020,
+        "wires": [
+            [
+                "f003000000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f003200000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Cek node offline",
+        "func": "const RUANG = { 1: 'Ruang A', 2: 'Ruang B', 3: 'Ruang C', 4: 'Ruang D' };\n\n// Dicek tiap menit: node dianggap offline jika tidak mengirim data > BATAS_MENIT.\n// Node nyata mengirim tiap 5 menit, jadi 12 menit = 2 paket berturut-turut hilang.\nconst BATAS_MENIT = Number(env.get('WSN_OFFLINE_MENIT')) || 12;\nconst stats = flow.get('stats') || {};\nconst offline = flow.get('offline') || {};\nconst alerts = [];\nconst status = [null, null, null, null];\nfor (const id of [1, 2, 3, 4]) {\n    const s = stats[id];\n    if (!s) continue;                           // belum pernah mengirim\n    const mati = Date.now() - s.lastSeen > BATAS_MENIT * 60000;\n    if (mati && !offline[id]) {\n        alerts.push('📴 ' + RUANG[id] + ': node tidak mengirim data lebih dari ' + BATAS_MENIT + ' menit');\n        status[id - 1] = { payload: 'Offline' };\n    }\n    if (!mati && offline[id]) alerts.push('📶 ' + RUANG[id] + ': node kembali online');\n    offline[id] = mati;\n}\nflow.set('offline', offline);\nreturn [alerts.length ? { topic: 'offline', payload: alerts.join('\\n') } : null, ...status];",
+        "outputs": 5,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 1340,
+        "wires": [
+            [
+                "f002400000000000",
+                "u002500000000000",
+                "f002700000000000"
+            ],
+            [
+                "u000d00000000000"
+            ],
+            [
+                "u001200000000000"
+            ],
+            [
+                "u001700000000000"
+            ],
+            [
+                "u001c00000000000"
+            ]
+        ]
+    },
+    {
+        "id": "i003300000000000",
+        "type": "inject",
+        "z": "a1b2c3d4e5f60001",
+        "name": "tiap 1 menit",
+        "props": [],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "x": 150,
+        "y": 1340,
+        "wires": [
+            [
+                "f003200000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f003400000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Simpan ambang",
+        "func": "const t = flow.get('ambang') || { suhuMax: 30, humMax: 70 };\nif (msg.topic === 'suhuMax') t.suhuMax = Number(msg.payload);\nif (msg.topic === 'humMax') t.humMax = Number(msg.payload);\nflow.set('ambang', t);\nnode.status({ text: 'suhu > ' + t.suhuMax + ' °C, kelembapan > ' + t.humMax + ' %' });\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "u003500000000000",
+        "type": "ui_numeric",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Suhu maks (°C)",
+        "label": "Suhu maks (°C)",
+        "tooltip": "",
+        "group": "g000900000000000",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "wrap": false,
+        "passthru": false,
+        "topic": "suhuMax",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 60,
+        "step": 0.5,
+        "className": "",
+        "x": 620,
+        "y": 1400,
+        "wires": [
+            [
+                "f003400000000000"
+            ]
+        ]
+    },
+    {
+        "id": "u003600000000000",
+        "type": "ui_numeric",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Kelembapan maks (%)",
+        "label": "Kelembapan maks (%)",
+        "tooltip": "",
+        "group": "g000900000000000",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "wrap": false,
+        "passthru": false,
+        "topic": "humMax",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "className": "",
+        "x": 620,
+        "y": 1440,
+        "wires": [
+            [
+                "f003400000000000"
+            ]
+        ]
+    },
+    {
+        "id": "f003700000000000",
+        "type": "function",
+        "z": "a1b2c3d4e5f60001",
+        "name": "Ambang awal",
+        "func": "// Nilai awal ambang batas (sesuai proposal: suhu > 30 °C, kelembapan > 70 %).\nconst t = { suhuMax: Number(env.get('WSN_SUHU_MAX')) || 30, humMax: Number(env.get('WSN_HUM_MAX')) || 70 };\nflow.set('ambang', t);\nreturn [{ payload: t.suhuMax }, { payload: t.humMax }];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1420,
+        "wires": [
+            [
+                "u003500000000000"
+            ],
+            [
+                "u003600000000000"
+            ]
+        ]
+    },
+    {
+        "id": "i003800000000000",
+        "type": "inject",
+        "z": "a1b2c3d4e5f60001",
+        "name": "saat mulai",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "x": 150,
+        "y": 1420,
+        "wires": [
+            [
+                "f003700000000000"
+            ]
+        ]
+    }
+]
